@@ -1,9 +1,23 @@
-import React from "react"
+import React, { useState, useEffect } from 'react';
+import Login from '../Login';
+import Dashboard from '../Dashboard';
 
-export function members() {
-    return (
-        <>
-            <h1>Agreements</h1>
-        </>
-    )
-}
+const Members = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  useEffect(() => {
+    setIsAuthenticated(JSON.parse(localStorage.getItem('is_authenticated')));
+  }, []);
+
+  return (
+    <>
+      {isAuthenticated ? (
+        <Dashboard setIsAuthenticated={setIsAuthenticated} />
+      ) : (
+        <Login setIsAuthenticated={setIsAuthenticated} />
+      )}
+    </>
+  );
+};
+
+export default Members;
