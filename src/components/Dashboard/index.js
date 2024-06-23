@@ -16,14 +16,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const getCities = async () => {
-    const querySnapshot = await getDocs(collection(db, "cities"));
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
-  }
-
   const getLandingpage = async () => {
     const querySnapshot = await getDocs(
       collection(db, "messagesApp/landingPageDb/landingPage")
@@ -36,7 +28,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
   useEffect(() => {
     // TODO: create getEmployees function and call it here
     getLandingpage();
-    // getCities();
   }, []);
 
   const handleEdit = id => {

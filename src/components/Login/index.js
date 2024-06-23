@@ -23,7 +23,7 @@ const Login = ({ setIsAuthenticated }) => {
         },
         willClose: () => {
           setIsAuthenticated(true);
-
+          localStorage.setItem('is_authenticated', true);
           Swal.fire({
             icon: 'success',
             title: 'Successfully logged in!',
@@ -60,7 +60,7 @@ const Login = ({ setIsAuthenticated }) => {
           },
           willClose: () => {
             setIsAuthenticated(true);
-
+            localStorage.setItem('is_authenticated', true);
             Swal.fire({
               icon: 'success',
               title: 'Successfully registered and logged in!',
