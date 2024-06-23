@@ -35,7 +35,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   useEffect(() => {
     // TODO: create getEmployees function and call it here
-    getLandingpage()
+    getLandingpage();
     // getCities();
   }, []);
 

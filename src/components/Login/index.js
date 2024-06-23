@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 
 const Login = ({ setIsAuthenticated }) => {
-  const adminEmail = 'admin@example.com';
-  const adminPassword = 'qwerty';
 
-  const [email, setEmail] = useState('admin@example.com');
-  const [password, setPassword] = useState('qwerty');
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-  const handleLogin = e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (email === adminEmail && password === adminPassword) {
+    const auth = getAuth();
+
+    if (document.activeElement.name === "Login") {
+      try {
+      await signInWithEmailAndPassword(auth, email, password)
       Swal.fire({
         timer: 1500,
         showConfirmButton: false,
@@ -19,7 +22,6 @@ const Login = ({ setIsAuthenticated }) => {
           Swal.showLoading();
         },
         willClose: () => {
-          localStorage.setItem('is_authenticated', true);
           setIsAuthenticated(true);
 
           Swal.fire({
@@ -30,7 +32,7 @@ const Login = ({ setIsAuthenticated }) => {
           });
         },
       });
-    } else {
+    } catch (error) {
       Swal.fire({
         timer: 1500,
         showConfirmButton: false,
@@ -47,6 +49,32 @@ const Login = ({ setIsAuthenticated }) => {
         },
       });
     }
+    } else if (document.activeElement.name === "Register") {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password)
+        Swal.fire({
+          timer: 1500,
+          showConfirmButton: false,
+          willOpen: () => {
+            Swal.showLoading();
+          },
+          willClose: () => {
+            setIsAuthenticated(true);
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Successfully registered and logged in!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+        });
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+
   };
 
   return (
@@ -71,7 +99,8 @@ const Login = ({ setIsAuthenticated }) => {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        <input style={{ marginTop: '12px' }} type="submit" value="Login" />
+        <input style={{ marginTop: '12px' }} type="submit" value="Login" name='Login' />
+        {/* <input style={{ marginTop: '12px', marginLeft:"12px", backgroundColor: "red" }} type="submit" value="Register" name='Register' /> */}
       </form>
     </div>
   );
