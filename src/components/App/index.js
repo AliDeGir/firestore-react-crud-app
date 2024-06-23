@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import Members from '../pages/Members';
+import {Link, Routes, Route} from 'react-router-dom'
+import Members from '../views/Members'
+import Home from '../views/Home';
 
 const App = () => {
 
 
   return (
     <>
-      <Members />
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/members">Members</Link>
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/members' element={<Members />} />
+      </Routes>
+      {/* <Members /> */}
     </>
   );
 };
